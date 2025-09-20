@@ -33,8 +33,16 @@ class MainWindow(CTk):
         self.message = CTkEntry(self, placeholder_text="Введіть повідомлення", height=40, width=360)
         self.message.place(x=10, y=260)
 
-        self.send = CTkButton(self, text='>', height=40, width=40)
+        self.send = CTkButton(self, text='>', height=40, width=40 , command=self.add_message)
         self.send.place(x=360, y=260)
+        # self.username = "да"
+        # try:
+        #     self.client = socket.socket(socket.AF_INET , socket.SOCK_STREAM)
+        #     self.client.connect(('0.0.0.0' , 8000))
+        #     hello = f"{self.username} приєднався до чату \n"
+        #     self.client.send(hello.encode('utf-8'))
+        # except Exception as exp:
+        #     self.add_message(f"Не вдалося підключитися до сервера {exp}")
 
     def show_menu(self):
         if self.is_show_menu:
@@ -49,16 +57,47 @@ class MainWindow(CTk):
             self.field.configure(width=200)
             self.field.place(x=200 , y=0)
             self.button.configure(text="<")
-    
+
+
     def change_theme(self, value):
         set_appearance_mode(value)
-    # додати повідомлення 
-        def add_message(self, text):
-            self.field.configure(state='normal')
-            self.field.insert(END, f"Я : {text}  \n ") 
-            self.field.configure(state="disable")
+
+# додати повідомлення 
+    def add_message(self):
+        self.field.configure(state='normal')
+        text = self.message.get()
+        self.field.insert(END, f"Я : {text}  \n ") 
+        self.message.delete(0, END)
+        self.field.configure(state="disable")
     # Відправити повідомлення
-    # отримати повідомлдення 
+        # def send_message(self):
+        #     get_message = self.message.get()
+        #     if get_message:
+        #         self.add_message(f'{self.username}: {get_message}')
+        #         data = f"{self.username}: {get_message}') \n"
+        #         try:
+        #             self.client.sendall(data.encode())
+        #         except:
+        #             pass
+        #     self.message.delete(0, END)
+                
+    # отримати повідомлдення
+        # def recv_message(self):
+        #     buffer = ""
+        #     while True:
+        #         try:
+        #             word = self.client.recv(4096)
+        #             if not word:
+        #                 break
+        #                 buffer += word.decode()
+        #                 while "\n" in buffer:
+        #                     line , buffer = buffer.split('\n' , 1)
+        #         except:
+        #             break
+        #     self.client.close()
+                    
         
 window = MainWindow()
+window.mainloop()
+
 window.mainloop()
